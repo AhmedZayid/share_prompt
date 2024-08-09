@@ -12,11 +12,10 @@ const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
-    const setUpProviders = async () => {
-      const response = await getProviders();
-      setProviders(response);
-    };
-    setUpProviders();
+    (async () => {
+      const res = await getProviders();
+      setProviders(res);
+    })();
   }, []);
 
   return (
@@ -36,7 +35,7 @@ const Nav = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <Link href="/createPrompt" className="black_btn">
+            <Link href="/create-prompt" className="black_btn">
               Create Post
             </Link>
 
@@ -96,7 +95,7 @@ const Nav = () => {
                   My Profile
                 </Link>
                 <Link
-                  href="/createPrompt"
+                  href="/create-prompt"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
