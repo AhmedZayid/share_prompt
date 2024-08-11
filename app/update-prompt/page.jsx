@@ -2,11 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-import Form from "@components/Form";
+import dynamic from "next/dynamic";
+const Form = dynamic(() => import("@components/Form"), {
+  ssr: false,
+});
 
 const UpdatePrompt = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const promptId = searchParams.get("id");
 

@@ -34,15 +34,23 @@ const MyProfile = () => {
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/prompt/${post._id.toString()}`, {
+        const response = await fetch(`/api/prompt/${post._id.toString()}`, {
           method: "DELETE",
         });
 
-        const filteredPosts = myPosts.filter((item) => item._id !== post._id);
+        if (!response.ok) {
+          throw new Error(`Failed to delete prompt: ${response.statusText}`);
+        }
 
+        // Filter out the deleted post from the list
+        const filteredPosts = myPosts.filter((item) => item._id !== post._id);
         setMyPosts(filteredPosts);
+
+        // Optionally, show a success message
+        alert("Prompt deleted successfully.");
       } catch (error) {
-        console.log(error);
+        console.error("Error deleting prompt:", error);
+        alert("Failed to delete prompt. Please try again.");
       }
     }
   };
